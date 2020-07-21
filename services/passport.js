@@ -5,6 +5,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 
 const keys = require('../config/keys');
 const mongoose = require('mongoose');
+const prod = require('../config/prod');
 
 // Models
 const User = mongoose.model('users');
@@ -25,7 +26,8 @@ passport.use(
     {
       clientID: keys.githubClientID,
       clientSecret: keys.githubClientSecret,
-      callbackURL: '/auth/github/callback',
+      callbackURL: keys.callbackUrlGithub,
+      proxy: true,
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ githubId: profile.id }).then((existingUser) => {
@@ -51,7 +53,8 @@ passport.use(
     {
       clientID: keys.facebookClientID,
       clientSecret: keys.facebookClientSecret,
-      callbackURL: '/auth/facebook/callback',
+      callbackURL: keys.callbackUrlFacebook,
+      proxy: true,
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ facebookId: profile.id }).then((existingUser) => {
@@ -75,7 +78,8 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback',
+      callbackURL: keys.callbackUrlGoogle,
+      proxy: true,
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ googleId: profile.id }).then((existingUser) => {

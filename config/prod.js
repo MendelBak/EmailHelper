@@ -9,4 +9,7 @@ module.exports = {
   githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
   mongoURI: process.env.MONGO_URI,
   cookieKey: process.env.COOKIE_KEY,
+  callbackUrlGoogle: process.env.CALLBACK_URL_GOOGLE,
+  callbackUrlGithub: process.env.CALLBACK_URL_GITHUB,
+  callbackUrlFacebook: process.env.CALLBACK_URL_FACEBOOK,
 };
