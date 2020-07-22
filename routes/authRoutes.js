@@ -38,7 +38,11 @@ module.exports = (app) => {
   app.get('/auth/github/callback', passport.authenticate('github'));
 
   app.get('/api/current_user', (req, res) => {
-    res.send(req.user);
+    if (req.user === undefined) {
+      res.send('No user is currently logged in.');
+    } else {
+      res.send(req.user);
+    }
   });
 
   app.get('/api/logout', (req, res) => {
