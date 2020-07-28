@@ -1,14 +1,14 @@
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const GithubStrategy = require('passport-github').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GithubStrategy = require("passport-github").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 
-const keys = require('../config/keys');
-const mongoose = require('mongoose');
-const prod = require('../config/prod');
+const keys = require("../config/keys");
+const mongoose = require("mongoose");
+const prod = require("../config/prod");
 
 // Models
-const User = mongoose.model('users');
+const User = mongoose.model("users");
 
 passport.serializeUser((user, done) => {
   // user.id = mongo record ID, not googleID.
@@ -29,21 +29,20 @@ passport.use(
       callbackURL: keys.callbackUrlGithub,
       proxy: true,
     },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ githubId: profile.id }).then((existingUser) => {
-        console.log(profile);
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          new User({
-            githubId: profile.id,
-            givenName: profile._json.name,
-            githubBio: profile._json.bio,
-          })
-            .save()
-            .then((user) => done(null, user));
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({ githubId: profile.id });
+      console.log(profile);
+      if (existingUser) {
+        done(null, existingUser);
+      } else {
+        const user = await new User({
+          githubId: profile.id,
+          givenName: profile._json.name,
+          githubBio: profile._json.bio,
+        })
+          .save()
+          .done(null, user);
+      }
     }
   )
 );
@@ -81,21 +80,21 @@ passport.use(
       callbackURL: keys.callbackUrlGoogle,
       proxy: true,
     },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ googleId: profile.id }).then((existingUser) => {
-        if (existingUser) {
-          // done object to close JS promise. null returns to the error param since we succeeded in getting the user, existingUser returns to the user param.
-          done(null, existingUser);
-        } else {
-          new User({
-            googleId: profile.id,
-            familyName: profile.name.familyName,
-            givenName: profile.name.givenName,
-          })
-            .save()
-            .then((user) => done(null, user));
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        // done object to close JS promise. null returns to the error param since we succeeded in getting the user, existingUser returns to the user param.
+        return done(null, existingUser);
+      }
+
+      const user = await new User({
+        googleId: profile.id,
+        familyName: profile.name.familyName,
+        givenName: profile.name.givenName,
+      })
+        .save();
+        done(null, user);
     }
   )
 );
