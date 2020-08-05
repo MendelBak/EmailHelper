@@ -7,7 +7,13 @@ module.exports = (app) => {
     passport.authenticate('google', { scope: ['profile', 'email'] })
   );
 
-  app.get('/auth/google/callback', passport.authenticate('google'));
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/' }),
+    (req, res) => {
+      res.redirect('/surveys');
+    }
+  );
 
   // Facebook OAuth routes
   app.get(
@@ -28,29 +34,24 @@ module.exports = (app) => {
     '/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/' }),
     (req, res) => {
-      res.redirect('/');
+      res.redirect('/surveys');
     }
   );
 
   // Github auth route
   app.get('/auth/github', passport.authenticate('github'));
 
-  app.get('/auth/github/callback', passport.authenticate('github'));
-
-  app.get('/api/current_user', (req, res) => {
-    if (req.user === undefined) {
-      res.send('No user is currently logged in.');
-    } else {
-      res.send(req.user);
+  app.get(
+    '/auth/github/callback',
+    passport.authenticate('github'),
+    (req, res) => {
+      res.redirect('/surveys');
     }
-  });
+  );
 
+  // Logs out the current user.
   app.get('/api/logout', (req, res) => {
-    if (req.user === undefined) {
-      res.send('You were logged out previously.');
-    } else {
-      req.logout();
-      res.send('You are now logged out.');
-    }
+    req.logout();
+    res.redirect('/');
   });
 };

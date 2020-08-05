@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// imports that looks like this are called ''
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -9,6 +8,8 @@ const userSchema = new Schema({
   facebookId: String,
   githubId: String,
   githubBio: String,
+  // credits = account credits to enable survey purchase.
+  credits: {type: Number, default: 0},
 });
 
 // first arg = name of model. second arg = schema to use.

@@ -12,4 +12,6 @@ module.exports = {
   callbackUrlGoogle: process.env.CALLBACK_URL_GOOGLE,
   callbackUrlGithub: process.env.CALLBACK_URL_GITHUB,
   callbackUrlFacebook: process.env.CALLBACK_URL_FACEBOOK,
+  stripeKey: process.env.STRIPE_KEY,
+  stripeSecret: process.env.STRIPE_SECRET,
 };
