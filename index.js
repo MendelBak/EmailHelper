@@ -5,9 +5,12 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 
+// Models
 // Models need to be declared before other files, otherwise schema/model errors will occur.
-require('./models/user');
+require('./models/User');
+require('./models/Survey');
 
+// Services
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -26,8 +29,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Routes
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 require('./routes/userRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {

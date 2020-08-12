@@ -6,9 +6,9 @@ import * as actions from '../actions';
 // Components
 import Header from './Header';
 import Landing from './Landing';
-
-const Dashboard = () => <h2>Dashboard</h2>;
-const SurveyNew = () => <h2>New Survey</h2>;
+import NewSurvey from './surveys/surveyCreation/NewSurvey';
+import SurveyComplete from './surveys/surveyCreation/SurveyComplete';
+import Dashboard from './Dashboard';
 
 class App extends Component {
   // This function runs when the App component loads for the first time.
@@ -22,9 +22,10 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Header />
+            <Route exact path='/surveyComplete' component={SurveyComplete} />
             <Route exact path='/' component={Landing} />
             <Route exact path='/surveys' component={Dashboard} />
-            <Route exact path='/surveys/new' component={SurveyNew} />
+            <Route exact path='/survey/new' component={NewSurvey} />
           </div>
         </BrowserRouter>
       </div>

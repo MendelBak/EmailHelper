@@ -14,4 +14,6 @@ module.exports = {
   callbackUrlFacebook: process.env.CALLBACK_URL_FACEBOOK,
   stripeKey: process.env.STRIPE_KEY,
   stripeSecret: process.env.STRIPE_SECRET,
+  sendGridKey: process.env.SEND_GRID_KEY,
+  redirectDomain: process.env.REDIRECT_DOMAIN,
 };
