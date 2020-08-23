@@ -3,9 +3,9 @@ import React from 'react';
 const SurveyComplete = () => {
   return (
     <div>
-      <p style={{ textAlign: 'center' }}>
+      <h3 style={{ textAlign: 'center', marginTop: '25%' }}>
         Thank you for your feedback! We will use it to improve this product.
-      </p>
+      </h3>
     </div>
   );
 };

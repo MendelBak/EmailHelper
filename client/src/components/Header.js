@@ -10,7 +10,7 @@ class Header extends Component {
         return;
       case false:
         return (
-          <li>
+          <li key='4'>
             <a href='/auth/google'>Login With Google</a>
           </li>
         );
@@ -37,8 +37,9 @@ class Header extends Component {
       <nav>
         <div className='nav-wrapper'>
           <Link
-            to={this.props.auth ? '/surveys' : '/'}
-            className='left brand-logo'
+            to={'/'}
+            className='brand-logo left'
+            style={{ marginLeft: '2%' }}
           >
             Email Helper
           </Link>
